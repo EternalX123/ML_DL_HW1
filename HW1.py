@@ -26,7 +26,7 @@ def download_img(url_info):
             pass
 
 root = Tk()  
-root.geometry('500x300') 
+root.geometry('1000x600') 
 
 url ='https://m.mugzone.net/index'
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko)\
@@ -35,10 +35,12 @@ r = requests.get(url, headers = headers)
 soup = BeautifulSoup(r.text)
 j=0
 imag=[]
+name=[]
 for i in soup.find_all("div"):
     try:
         if i['class'][0]=='g_map':
             imag.append(download_img([i.find('a').find_all("div")[0].get('style')[22:-1],str(j)+".png"]))
+            name.append(i.find_all('p')[0].string)
             j+=1
     except:
         1
@@ -53,13 +55,17 @@ def hit_me():
     imgtk = ImageTk.PhotoImage(image=im) 
     l.config(image = imgtk)
     l.image = imgtk
+    m.config(text=name[k])
     k+=1
  
 
 var = StringVar()    # 将label标签的内容设置为字符类型，用var来接收hit_me函数的传出内容用以显示在标签上
 l = Label(root, textvariable = var, font=('Arial', 12))
 
-b = Button(root, text='hit me', font=('Arial', 12), width=10, height=1, command=hit_me)
+m = Label(root)
+m.pack()
+b = Button(root, text='获取最新谱面信息', font=('Arial', 14), width=14, height=1, command=hit_me)
 b.pack()
 l.pack()
+
 root.mainloop()
