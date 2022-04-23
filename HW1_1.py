@@ -34,24 +34,30 @@ headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36
 Chrome/55.0.2883.87 Safari/537.36'}
 r = requests.get(url, headers = headers)
 soup = BeautifulSoup(r.text)
-j=0
-imag=[]
-imag1=[]
-name=[]
-name1=[]
-for i in soup.find_all("div"):
-    try:
-        if i['class'][0]=='g_map':
-            imag.append(download_img([i.find('a').find_all("div")[0].get('style')[22:-1],str(j)+".png"]))
-            imag1.append(download_img(['https://m.mugzone.net/'+i.find('img').get('src'),'type'+str(j)+".png"]))
-            name.append(i.find_all('p')[0].string)
-            name1.append(i.find_all('p')[1].string)
-            j+=1
-    except:
-        1
+
+class GETPICTURE:
+    def get_pic(self):
+        j=0
+        name=[]
+        name1=[]
+        for i in soup.find_all("div"):
+            try:
+                if i['class'][0]=='g_map':
+                    download_img([i.find('a').find_all("div")[0].get('style')[22:-1],str(j)+".png"])
+                    download_img(['https://m.mugzone.net/'+i.find('img').get('src'),'type'+str(j)+".png"])
+                    name.append(i.find_all('p')[0].string)
+                    name1.append(i.find_all('p')[1].string)
+                    j+=1
+            except:
+                1
+        return [name,name1]
+
+names=GETPICTURE().get_pic()
+name=names[0]
+name1=names[1]
 
 for k in range(len(name)):
-    ResizeImage(k,500,filein = 'D:\\python_and_ML\\'+str(k)+'.png')
+    ResizeImage(k,400,filein = 'D:\\python_and_ML\\'+str(k)+'.png')
     ResizeImage(k,50,filein = 'D:\\python_and_ML\\'+'type'+str(k)+'.png')
 
 k=0
