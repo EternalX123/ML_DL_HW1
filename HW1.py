@@ -63,9 +63,9 @@ var = StringVar()    # 将label标签的内容设置为字符类型，用var来�
 l = Label(root, textvariable = var, font=('Arial', 12))
 
 m = Label(root)
-m.pack()
 b = Button(root, text='获取最新谱面信息', font=('Arial', 14), width=14, height=1, command=hit_me)
-b.pack()
-l.pack()
+b.grid(column=1, row=0)
+m.grid(column=1, row=1)
+l.grid(column=1, row=2)
 
 root.mainloop()
